@@ -1,7 +1,7 @@
 import { Topbar } from "@/components";
 import { AuthProvider, SnackbarProvider } from "@/contexts";
-import { routes } from "@/routes";
 import { graphqlClient } from "@/graphql/apollo";
+import { routes } from "@/routes";
 import { mantineTheme } from "@/utils";
 import { ApolloProvider } from "@apollo/client";
 import { Container, MantineProvider } from "@mantine/core";
