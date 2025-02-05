@@ -32,16 +32,20 @@ export const getServerSideProps: GetServerSideProps<
 const MyActivities = ({ activities }: MyActivitiesProps) => {
   const { user } = useAuth();
 
+  // TODO use i18n
+  const myActivitiesTitle = "Mes activités";
+  const buttonLabel = "Ajouter une activité"; // factorize with i18n
+  
   return (
     <>
       <Head>
-        <title>Mes activités | CDTR</title>
+        <title>{myActivitiesTitle} | CDTR</title>
       </Head>
       <Group position="apart">
-        <PageTitle title="Mes activités" />
+        <PageTitle title={myActivitiesTitle} />
         {user && (
           <Link href="/activities/create">
-            <Button>Ajouter une activité</Button>
+            <Button>{buttonLabel}</Button>
           </Link>
         )}
       </Group>

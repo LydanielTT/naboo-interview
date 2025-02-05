@@ -26,12 +26,13 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 export default function Explorer({ cities }: ExplorerProps) {
+  const findNewActivityTitle = "Trouvez une activité dans votre ville";
   return (
     <>
       <Head>
         <title>Explorer | CDTR</title>
       </Head>
-      <PageTitle title="Trouvez une activité dans votre ville" />
+      <PageTitle title={findNewActivityTitle} />
       <Flex direction="column" gap="1rem">
         {cities.length > 0 ? (
           cities.map((city) => <City city={city} key={city} />)
