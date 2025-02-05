@@ -15,14 +15,15 @@ interface ProfileProps {
 
 const Profile = (props: ProfileProps) => {
   const { user } = useAuth();
+  const title = "Mon profil"; // TODO use i18n
 
   return (
     <>
       <Head>
-        <title>Mon profil | CDTR</title>
+        <title>{title} | CDTR</title>
       </Head>
-      <PageTitle title="Mon profil" />
-      <Flex align="center" gap="md">
+      <PageTitle title={title} />
+      <Flex direction="column" align="center" gap="md" justify="space-between">
         <Avatar color="cyan" radius="xl" size="lg">
           {user?.firstName[0]}
           {user?.lastName[0]}
@@ -31,6 +32,9 @@ const Profile = (props: ProfileProps) => {
           <Text>{user?.email}</Text>
           <Text>{user?.firstName}</Text>
           <Text>{user?.lastName}</Text>
+        </Flex>
+        <Flex direction="column">
+          <Text>Favoris</Text>
         </Flex>
       </Flex>
     </>

@@ -29,17 +29,20 @@ export const getServerSideProps: GetServerSideProps<
 
 export default function Discover({ activities }: DiscoverProps) {
   const { user } = useAuth();
-
+  // TODO use i18n, can use route label
+  const title = "Discover | CDTR";
+  const pageTitle = "Découvrez des activités";
+  const addActivity = "Ajouter une activité";
   return (
     <>
       <Head>
-        <title>Discover | CDTR</title>
+        <title>{title}</title>
       </Head>
       <Group position="apart">
-        <PageTitle title="Découvrez des activités" />
+        <PageTitle title={pageTitle} />
         {user && (
           <Link href="/activities/create">
-            <Button>Ajouter une activité</Button>
+            <Button>{addActivity}</Button>
           </Link>
         )}
       </Group>
