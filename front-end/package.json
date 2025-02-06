@@ -42,7 +42,18 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "jsdom": "^22.1.0",
+    "prettier": "^3.4.2",
     "typescript": "5.1.6",
     "vitest": "^0.33.0"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "trailingComma": "all",
+    "jsxBracketSameLine": false,
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false
   }
 }

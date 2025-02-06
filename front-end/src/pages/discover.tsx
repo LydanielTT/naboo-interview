@@ -30,13 +30,13 @@ export const getServerSideProps: GetServerSideProps<
 export default function Discover({ activities }: DiscoverProps) {
   const { user } = useAuth();
   // TODO use i18n, can use route label
-  const title = "Discover | CDTR";
+  const discoverTitle = "Discover | CDTR";
   const pageTitle = "Découvrez des activités";
   const addActivity = "Ajouter une activité";
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{discoverTitle} | CDTR</title>
       </Head>
       <Group position="apart">
         <PageTitle title={pageTitle} />
