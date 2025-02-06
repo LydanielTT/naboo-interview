@@ -1,5 +1,6 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { GraphQLBoolean } from 'graphql';
 
 @InputType()
 export class CreateActivityInput {
@@ -20,4 +21,14 @@ export class CreateActivityInput {
   @IsNumber()
   @Min(1)
   price!: number;
+}
+@InputType()
+export class UpdateActivityInput {
+  @Field()
+  @IsNotEmpty()
+  id!: string;
+
+  @Field(() => Boolean)
+  @IsNotEmpty()
+  isFavorite!: boolean;
 }

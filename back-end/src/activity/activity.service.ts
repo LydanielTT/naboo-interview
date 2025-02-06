@@ -2,7 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Activity } from './activity.schema';
-import { CreateActivityInput } from './activity.inputs.dto';
+import {
+  CreateActivityInput,
+  UpdateActivityInput,
+} from './activity.inputs.dto';
 
 @Injectable()
 export class ActivityService {
@@ -41,6 +44,24 @@ export class ActivityService {
       ...data,
       owner: userId,
     });
+    return activity;
+  }
+
+  async updateFavorite(
+    userId: string,
+    data: UpdateActivityInput,
+  ): Promise<Activity> {
+    console.log('in updateFavorite');
+    console.log(data);
+
+    const activity = await this.activityModel
+      .findOneAndUpdate(
+        { owner: userId, _id: data.id },
+        { isFavorite: data.isFavorite },
+        { new: true },
+      )
+      .exec();
+    if (!activity) throw new NotFoundException();
     return activity;
   }
 

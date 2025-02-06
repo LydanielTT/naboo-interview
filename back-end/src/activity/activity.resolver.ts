@@ -15,7 +15,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { UserService } from 'src/user/user.service';
 import { Activity } from './activity.schema';
 
-import { CreateActivityInput } from './activity.inputs.dto';
+import { CreateActivityInput, UpdateActivityInput } from './activity.inputs.dto';
 import { User } from 'src/user/user.schema';
 import { ContextWithJWTPayload } from 'src/auth/types/context';
 
@@ -23,7 +23,7 @@ import { ContextWithJWTPayload } from 'src/auth/types/context';
 export class ActivityResolver {
   constructor(
     private readonly activityService: ActivityService,
-    private readonly userServices: UserService,
+    private readonly userService: UserService,
   ) {}
 
   @ResolveField(() => ID)
@@ -82,5 +82,22 @@ export class ActivityResolver {
     @Args('createActivityInput') createActivity: CreateActivityInput,
   ): Promise<Activity> {
     return this.activityService.create(context.jwtPayload.id, createActivity);
+  }
+
+  @Mutation(() => Activity)
+  @UseGuards(AuthGuard)
+  /**
+   * Set an activity as favorite for the currently logged-in user
+   * @param context Context with JWT payload
+   * @param createActivityInput Activity to set as favorite
+   * @returns Updated activity
+   */
+  async setFavorite(
+    @Context() context: ContextWithJWTPayload,
+    @Args('updateActivityInput') updateActivity: UpdateActivityInput,
+  ): Promise<Activity> {
+    const activity = await this.activityService.updateFavorite(context.jwtPayload.id, updateActivity);
+    console.log(activity);
+    return activity
   }
 }

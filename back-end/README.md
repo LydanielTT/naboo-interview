@@ -32,6 +32,8 @@
 $ yarn install
 ```
 
+/!\ DON'T FORGET TO CREATE YOUR OWN `.env` file in local, copy `.env.dist` content. 
+
 ## Running the app
 
 ```bash

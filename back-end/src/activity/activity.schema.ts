@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { User } from '../user/user.schema';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { GraphQLBoolean } from 'graphql';
 
 @ObjectType()
 @Schema({ timestamps: true })
@@ -35,6 +36,10 @@ export class Activity extends Document {
 
   @Field(() => Date, { nullable: true })
   createdAt!: Date;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @Prop()
+  isFavorite!: boolean;
 }
 
 export const ActivitySchema = SchemaFactory.createForClass(Activity);
