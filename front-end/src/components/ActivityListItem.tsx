@@ -6,9 +6,10 @@ import FavoriteButton from "./FavoriteButton";
 
 interface ActivityListItemProps {
   activity: ActivityFragment;
+  isAdmin?: boolean;
 }
 
-export function ActivityListItem({ activity }: ActivityListItemProps) {
+export function ActivityListItem({ activity, isAdmin }: ActivityListItemProps) {
   const { classes } = useGlobalStyles();
 
   return (
@@ -20,6 +21,8 @@ export function ActivityListItem({ activity }: ActivityListItemProps) {
           <Text className={classes.ellipsis}>{activity.name}</Text>
           <Text className={classes.ellipsis}>{activity.description}</Text>
           <Text weight="bold" className={classes.ellipsis}>{`${activity.price}€/j`}</Text>
+          {isAdmin && <Text>{new Date(activity.createdAt).toLocaleDateString()}</Text>}
+          {/* TODO use i18n and use locale */}
         </Box>
       </Flex>
       <Flex gap="md" align="start">

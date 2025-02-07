@@ -8,6 +8,7 @@ const GetUser = gql`
       firstName
       lastName
       email
+      role
       favoriteActivities {
         ...Activity
       }
