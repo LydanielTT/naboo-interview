@@ -8,8 +8,8 @@ import {
   RemoveFavoriteActivityMutation,
   RemoveFavoriteActivityMutationVariables,
 } from "../graphql/generated/types";
-import AddFavoriteActivity from "../graphql/mutations/auth/addFavoriteActivity";
-import RemoveFavoriteActivity from "../graphql/mutations/auth/removeFavoriteActivity";
+import AddFavoriteActivity from "../graphql/mutations/activity/addFavoriteActivity";
+import RemoveFavoriteActivity from "../graphql/mutations/activity/removeFavoriteActivity";
 import GetUser from "../graphql/queries/auth/getUser";
 import { useAuth } from "../hooks";
 
