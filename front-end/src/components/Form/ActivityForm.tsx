@@ -4,12 +4,7 @@ import { Box, Button, Group, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  cityValidation,
-  descriptionValidation,
-  nameValidation,
-  priceValidation,
-} from "./validationRules";
+import { cityValidation, descriptionValidation, nameValidation, priceValidation } from "./validationRules";
 import { useMutation } from "@apollo/client";
 import CreateActivity from "@/graphql/mutations/activity/createActivity";
 import {
@@ -31,10 +26,7 @@ export default function ActivityForm() {
   const [displayedCities, setDisplayedCities] = useState<SelectData[]>([]);
   const router = useRouter();
 
-  const [createActivity] = useMutation<
-    CreateActivityMutation,
-    CreateActivityMutationVariables
-  >(CreateActivity);
+  const [createActivity] = useMutation<CreateActivityMutation, CreateActivityMutationVariables>(CreateActivity);
 
   const form = useForm<CreateActivityInput>({
     initialValues: {
@@ -55,7 +47,7 @@ export default function ActivityForm() {
     if (debouncedSearch) {
       searchCity(debouncedSearch)
         .then((data) => {
-          setDisplayedCities(data.map((d) => ({ value: d.nom, label: d.nom })));
+          setDisplayedCities(data.map((d) => ({ value: d.nom, label: `${d.nom} : ${d.code}` }))); // TODO use list with unique values like `[name]-[code]`
         })
         .catch((err) => {
           snackbar.error(err?.message || "Une erreur est survenue");
@@ -82,12 +74,7 @@ export default function ActivityForm() {
   return (
     <Box maw={450} mx="auto">
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          withAsterisk
-          label="Nom de l'activité"
-          placeholder="Session Yoga"
-          {...form.getInputProps("name")}
-        />
+        <TextInput withAsterisk label="Nom de l'activité" placeholder="Session Yoga" {...form.getInputProps("name")} />
         <Textarea
           withAsterisk
           label="Description"
@@ -104,13 +91,7 @@ export default function ActivityForm() {
           data={displayedCities}
           {...form.getInputProps("city")}
         />
-        <TextInput
-          withAsterisk
-          label="Prix"
-          placeholder="50"
-          type="number"
-          {...form.getInputProps("price")}
-        />
+        <TextInput withAsterisk label="Prix" placeholder="50" type="number" {...form.getInputProps("price")} />
         <Group position="right" mt="md">
           <Button loading={isLoading} type="submit">
             Valider
