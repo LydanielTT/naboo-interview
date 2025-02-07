@@ -5,12 +5,15 @@ import { Paper } from "@mantine/core";
 import Head from "next/head";
 
 const CreateActivity = () => {
+  // TODO use i18n
+  const addActivityTitle = "Ajouter une activité";
   return (
     <>
       <Head>
         <title>Ajouter une activité | CDTR</title>
       </Head>
-      <PageTitle title="Ajouter une activité" prevPath="/discover" />
+      {/* TODO use router.back for prevPath since we can come from /activities too */}
+      <PageTitle title={addActivityTitle} prevPath="/discover" />
       <Paper shadow="xs" p="md">
         <ActivityForm />
       </Paper>

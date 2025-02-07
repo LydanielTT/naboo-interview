@@ -4,12 +4,14 @@ import { Paper } from "@mantine/core";
 import Head from "next/head";
 
 const Signin = () => {
+  // TODO use i18n
+  const loginTitle = "Connexion";
   return (
     <>
       <Head>
-        <title>Connection | CDTR</title>
+        <title>{loginTitle} | CDTR</title>
       </Head>
-      <PageTitle title="Connection" />
+      <PageTitle title={loginTitle} />
       <Paper shadow="xs" p="md">
         <SigninForm />
       </Paper>

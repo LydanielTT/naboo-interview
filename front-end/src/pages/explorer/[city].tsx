@@ -63,6 +63,9 @@ export default function ActivityDetails({
   );
   const debouncedSearchPrice = useDebounced(searchPrice, 300);
 
+  // TODO use i18n
+  const cityActivitiesTitle = "Activités pour la ville de ";
+
   useEffect(() => {
     const searchParams = new URLSearchParams();
 
@@ -83,10 +86,7 @@ export default function ActivityDetails({
       <Head>
         <title>{city} | CDTR</title>
       </Head>
-      <PageTitle
-        title={`Activités pour la ville de ${city}`}
-        prevPath="/explorer"
-      />
+      <PageTitle title={`${cityActivitiesTitle}${city}`} prevPath="/explorer" />
       <Grid>
         <Grid.Col span={4}>
           <Filters

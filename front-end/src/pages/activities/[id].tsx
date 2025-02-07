@@ -1,27 +1,20 @@
 import { PageTitle } from "@/components";
 import { graphqlClient } from "@/graphql/apollo";
-import {
-  GetActivityQuery,
-  GetActivityQueryVariables,
-} from "@/graphql/generated/types";
+import { GetActivityQuery, GetActivityQueryVariables } from "@/graphql/generated/types";
 import GetActivity from "@/graphql/queries/activity/getActivity";
 import { Badge, Flex, Grid, Group, Image, Text } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import FavoriteButton from "../../components/FavoriteButton";
 
 interface ActivityDetailsProps {
   activity: GetActivityQuery["getActivity"];
 }
 
-export const getServerSideProps: GetServerSideProps<
-  ActivityDetailsProps
-> = async ({ params, req }) => {
+export const getServerSideProps: GetServerSideProps<ActivityDetailsProps> = async ({ params, req }) => {
   if (!params?.id || Array.isArray(params.id)) return { notFound: true };
-  const response = await graphqlClient.query<
-    GetActivityQuery,
-    GetActivityQueryVariables
-  >({
+  const response = await graphqlClient.query<GetActivityQuery, GetActivityQueryVariables>({
     query: GetActivity,
     variables: { id: params.id },
     context: { headers: { Cookie: req.headers.cookie } },
@@ -62,6 +55,7 @@ export default function ActivityDetails({ activity }: ActivityDetailsProps) {
             <Text size="sm" color="dimmed">
               Ajouté par {activity.owner.firstName} {activity.owner.lastName}
             </Text>
+            <FavoriteButton id={activity.id} />
           </Flex>
         </Grid.Col>
       </Grid>
