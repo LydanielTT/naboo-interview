@@ -9,6 +9,8 @@ import {
   SigninMutationVariables,
   SignupMutation,
   SignupMutationVariables,
+  User,
+  UserRoles,
 } from "@/graphql/generated/types";
 import Logout from "@/graphql/mutations/auth/logout";
 import Signin from "@/graphql/mutations/auth/signin";
@@ -17,11 +19,12 @@ import GetUser from "@/graphql/queries/auth/getUser";
 import { useSnackbar } from "@/hooks";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 interface AuthContextType {
   user: GetUserQuery["getMe"] | null;
   isLoading: boolean;
+  isAdmin: boolean;
   handleSignin: (input: SignInInput) => Promise<void>;
   handleSignup: (input: SignUpInput) => Promise<void>;
   handleLogout: () => Promise<void>;
@@ -31,6 +34,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: false,
+  isAdmin: false,
   handleSignin: () => Promise.resolve(),
   handleSignup: () => Promise.resolve(),
   handleLogout: () => Promise.resolve(),
@@ -111,8 +115,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       favoriteActivities: activities,
     } as GetUserQuery["getMe"]);
 
+  const isAdmin = useMemo(() => user?.role === ("admin" as UserRoles), [user]);
   return (
-    <AuthContext.Provider value={{ user, isLoading, handleSignin, handleSignup, handleLogout, setFavoriteActivities }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, isAdmin, handleSignin, handleSignup, handleLogout, setFavoriteActivities }}
+    >
       {children}
     </AuthContext.Provider>
   );

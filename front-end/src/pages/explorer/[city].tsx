@@ -1,11 +1,8 @@
 import { ActivityListItem, EmptyData, Filters, PageTitle } from "@/components";
 import { graphqlClient } from "@/graphql/apollo";
-import {
-  GetActivitiesByCityQuery,
-  GetActivitiesByCityQueryVariables,
-} from "@/graphql/generated/types";
+import { GetActivitiesByCityQuery, GetActivitiesByCityQueryVariables } from "@/graphql/generated/types";
 import GetActivitiesByCity from "@/graphql/queries/activity/getActivitiesByCity";
-import { useDebounced } from "@/hooks";
+import { useAuth, useDebounced } from "@/hooks";
 import { Divider, Flex, Grid } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -18,22 +15,13 @@ interface CityDetailsProps {
   city: string;
 }
 
-export const getServerSideProps: GetServerSideProps<CityDetailsProps> = async ({
-  params,
-  query,
-}) => {
+export const getServerSideProps: GetServerSideProps<CityDetailsProps> = async ({ params, query }) => {
   if (!params?.city || Array.isArray(params.city)) return { notFound: true };
 
-  if (
-    (query.activity && Array.isArray(query.activity)) ||
-    (query.price && Array.isArray(query.price))
-  )
+  if ((query.activity && Array.isArray(query.activity)) || (query.price && Array.isArray(query.price)))
     return { notFound: true };
 
-  const response = await graphqlClient.query<
-    GetActivitiesByCityQuery,
-    GetActivitiesByCityQueryVariables
-  >({
+  const response = await graphqlClient.query<GetActivitiesByCityQuery, GetActivitiesByCityQueryVariables>({
     query: GetActivitiesByCity,
     variables: {
       city: params.city,
@@ -46,20 +34,15 @@ export const getServerSideProps: GetServerSideProps<CityDetailsProps> = async ({
   };
 };
 
-export default function ActivityDetails({
-  activities,
-  city,
-}: CityDetailsProps) {
+export default function ActivityDetails({ activities, city }: CityDetailsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const [searchActivity, setSearchActivity] = useState<string | undefined>(
-    searchParams?.get("activity") || undefined
-  );
+  const { isAdmin } = useAuth();
+  const [searchActivity, setSearchActivity] = useState<string | undefined>(searchParams?.get("activity") || undefined);
   const debouncedSearchActivity = useDebounced(searchActivity, 300);
 
   const [searchPrice, setSearchPrice] = useState<number | undefined>(
-    searchParams?.get("price") ? Number(searchParams.get("price")) : undefined
+    searchParams?.get("price") ? Number(searchParams.get("price")) : undefined,
   );
   const debouncedSearchPrice = useDebounced(searchPrice, 300);
 
@@ -69,11 +52,9 @@ export default function ActivityDetails({
   useEffect(() => {
     const searchParams = new URLSearchParams();
 
-    if (debouncedSearchActivity !== undefined)
-      searchParams.set("activity", debouncedSearchActivity);
+    if (debouncedSearchActivity !== undefined) searchParams.set("activity", debouncedSearchActivity);
 
-    if (debouncedSearchPrice !== undefined)
-      searchParams.set("price", debouncedSearchPrice.toString());
+    if (debouncedSearchPrice !== undefined) searchParams.set("price", debouncedSearchPrice.toString());
 
     const stringParams = searchParams.toString();
     router.push(`/explorer/${city}${stringParams ? `?${stringParams}` : ""}`);
@@ -103,7 +84,7 @@ export default function ActivityDetails({
             {activities.length > 0 ? (
               activities.map((activity, idx) => (
                 <Fragment key={activity.id}>
-                  <ActivityListItem activity={activity} />
+                  <ActivityListItem isAdmin={isAdmin} activity={activity} />
                   {idx < activities.length - 1 && <Divider my="sm" />}
                 </Fragment>
               ))

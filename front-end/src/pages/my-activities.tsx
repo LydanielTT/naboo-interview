@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const MyActivities = ({ activities }: MyActivitiesProps) => {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   // TODO use i18n
   const myActivitiesTitle = "Mes activités";
@@ -52,7 +52,7 @@ const MyActivities = ({ activities }: MyActivitiesProps) => {
       <Grid>
         {activities.length > 0 ? (
           activities.map((activity) => (
-            <Activity activity={activity} key={activity.id} />
+            <Activity isAdmin={isAdmin} activity={activity} key={activity.id} />
           ))
         ) : (
           <EmptyData />

@@ -7,9 +7,11 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import FavoriteButton from "../../components/FavoriteButton";
+import { useAuth } from "../../hooks";
 
 interface ActivityDetailsProps {
   activity: GetActivityQuery["getActivity"];
+  isAdmin?: boolean;
 }
 
 export const getServerSideProps: GetServerSideProps<ActivityDetailsProps> = async ({ params, req }) => {
@@ -24,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<ActivityDetailsProps> = asyn
 
 export default function ActivityDetails({ activity }: ActivityDetailsProps) {
   const router = useRouter();
-
+  const { isAdmin } = useAuth();
   return (
     <>
       <Head>
@@ -55,6 +57,12 @@ export default function ActivityDetails({ activity }: ActivityDetailsProps) {
             <Text size="sm" color="dimmed">
               Ajouté par {activity.owner.firstName} {activity.owner.lastName}
             </Text>
+            {isAdmin && (
+              <Text size="sm" color="dimmed">
+                le {new Date(activity.createdAt).toLocaleDateString("fr-FR")}
+                {/* TODO use i18n and use locale */}
+              </Text>
+            )}
             <FavoriteButton id={activity.id} />
           </Flex>
         </Grid.Col>

@@ -6,9 +6,10 @@ import FavoriteButton from "./FavoriteButton";
 
 interface ActivityProps {
   activity: ActivityFragment;
+  isAdmin?: boolean;
 }
 
-export function Activity({ activity }: ActivityProps) {
+export function Activity({ activity, isAdmin = false }: ActivityProps) {
   const { classes } = useGlobalStyles();
 
   return (
@@ -21,7 +22,6 @@ export function Activity({ activity }: ActivityProps) {
             alt="random image of city"
           />
         </Card.Section>
-
         <Group position="apart" mt="md" mb="xs">
           <Text weight={500} className={classes.ellipsis}>
             {activity.name}
@@ -39,6 +39,12 @@ export function Activity({ activity }: ActivityProps) {
             {`${activity.price}€/j`}
           </Badge>
         </Group>
+        {isAdmin && (
+          <Group mt="md" mb="xs">
+            <Text size="sm" data-testid="date">{new Date(activity.createdAt).toLocaleDateString("fr-FR")}</Text> 
+            {/* TODO use i18n and use locale */}
+          </Group>
+        )}
 
         <Text size="sm" color="dimmed" className={classes.ellipsis}>
           {activity.description}

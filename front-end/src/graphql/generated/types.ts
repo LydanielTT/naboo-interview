@@ -127,11 +127,24 @@ export type User = {
   id: Scalars['ID']['output'];
   lastName: Scalars['String']['output'];
   password: Scalars['String']['output'];
+  role: UserRoles;
 };
 
-export type ActivityFragment = { __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } };
+export enum UserRoles {
+  Admin = 'admin',
+  User = 'user'
+}
+
+export type ActivityFragment = { __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } };
 
 export type OwnerFragment = { __typename?: 'User', firstName: string, lastName: string };
+
+export type AddFavoriteActivityMutationVariables = Exact<{
+  addFavoriteActivityInput: AddFavoriteActivityInput;
+}>;
+
+
+export type AddFavoriteActivityMutation = { __typename?: 'Mutation', addFavoriteActivity: { __typename?: 'User', id: string, favoriteActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> } };
 
 export type CreateActivityMutationVariables = Exact<{
   createActivityInput: CreateActivityInput;
@@ -140,24 +153,17 @@ export type CreateActivityMutationVariables = Exact<{
 
 export type CreateActivityMutation = { __typename?: 'Mutation', createActivity: { __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, owner: { __typename?: 'User', firstName: string, lastName: string } } };
 
-export type AddFavoriteActivityMutationVariables = Exact<{
-  addFavoriteActivityInput: AddFavoriteActivityInput;
-}>;
-
-
-export type AddFavoriteActivityMutation = { __typename?: 'Mutation', addFavoriteActivity: { __typename?: 'User', id: string, favoriteActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> } };
-
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
-
 export type RemoveFavoriteActivityMutationVariables = Exact<{
   removeFavoriteActivityInput: RemoveFavoriteActivityInput;
 }>;
 
 
-export type RemoveFavoriteActivityMutation = { __typename?: 'Mutation', removeFavoriteActivity: { __typename?: 'User', id: string, favoriteActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> } };
+export type RemoveFavoriteActivityMutation = { __typename?: 'Mutation', removeFavoriteActivity: { __typename?: 'User', id: string, favoriteActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type SigninMutationVariables = Exact<{
   signInInput: SignInInput;
@@ -176,7 +182,7 @@ export type SignupMutation = { __typename?: 'Mutation', register: { __typename?:
 export type GetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetActivitiesQuery = { __typename?: 'Query', getActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
+export type GetActivitiesQuery = { __typename?: 'Query', getActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
 
 export type GetActivitiesByCityQueryVariables = Exact<{
   activity?: InputMaybe<Scalars['String']['input']>;
@@ -185,29 +191,29 @@ export type GetActivitiesByCityQueryVariables = Exact<{
 }>;
 
 
-export type GetActivitiesByCityQuery = { __typename?: 'Query', getActivitiesByCity: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
+export type GetActivitiesByCityQuery = { __typename?: 'Query', getActivitiesByCity: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
 
 export type GetActivityQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetActivityQuery = { __typename?: 'Query', getActivity: { __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } } };
+export type GetActivityQuery = { __typename?: 'Query', getActivity: { __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } } };
 
 export type GetLatestActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLatestActivitiesQuery = { __typename?: 'Query', getLatestActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
+export type GetLatestActivitiesQuery = { __typename?: 'Query', getLatestActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
 
 export type GetUserActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserActivitiesQuery = { __typename?: 'Query', getActivitiesByUser: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
+export type GetUserActivitiesQuery = { __typename?: 'Query', getActivitiesByUser: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> };
 
 export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getMe: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, favoriteActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, owner: { __typename?: 'User', firstName: string, lastName: string } }> } };
+export type GetUserQuery = { __typename?: 'Query', getMe: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, role: UserRoles, favoriteActivities: Array<{ __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, isFavorite: boolean, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } }> } };
 
 export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -300,6 +306,7 @@ export type ResolversTypes = {
   SignUpInput: SignUpInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  UserRoles: UserRoles;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -368,6 +375,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  role?: Resolver<ResolversTypes['UserRoles'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
