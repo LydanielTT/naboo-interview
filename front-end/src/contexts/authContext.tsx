@@ -25,6 +25,7 @@ interface AuthContextType {
   handleSignin: (input: SignInInput) => Promise<void>;
   handleSignup: (input: SignUpInput) => Promise<void>;
   handleLogout: () => Promise<void>;
+  setFavoriteActivities: (activities: GetUserQuery["getMe"]["favoriteActivities"]) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -33,6 +34,7 @@ export const AuthContext = createContext<AuthContextType>({
   handleSignin: () => Promise.resolve(),
   handleSignup: () => Promise.resolve(),
   handleLogout: () => Promise.resolve(),
+  setFavoriteActivities: () => ({}),
 });
 
 interface AuthProviderProps {
@@ -103,10 +105,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const setFavoriteActivities = (activities: GetUserQuery["getMe"]["favoriteActivities"]) =>
+    setUser({
+      ...user,
+      favoriteActivities: activities,
+    } as GetUserQuery["getMe"]);
+
   return (
-    <AuthContext.Provider
-      value={{ user, isLoading, handleSignin, handleSignup, handleLogout }}
-    >
+    <AuthContext.Provider value={{ user, isLoading, handleSignin, handleSignup, handleLogout, setFavoriteActivities }}>
       {children}
     </AuthContext.Provider>
   );

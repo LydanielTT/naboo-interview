@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { User } from '../user/user.schema';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose, { Document } from "mongoose";
+import { User } from "../user/user.schema";
+import { Field, ID, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 @Schema({ timestamps: true })
@@ -28,10 +28,13 @@ export class Activity extends Document {
   @Field(() => User)
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   })
   owner!: User;
+
+  @Field()
+  isFavorite!: boolean;
 
   @Field(() => Date, { nullable: true })
   createdAt!: Date;
