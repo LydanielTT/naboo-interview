@@ -9,7 +9,7 @@ interface ActivityProps {
   isAdmin?: boolean;
 }
 
-export function Activity({ activity, isAdmin }: ActivityProps) {
+export function Activity({ activity, isAdmin = false }: ActivityProps) {
   const { classes } = useGlobalStyles();
 
   return (
@@ -41,7 +41,7 @@ export function Activity({ activity, isAdmin }: ActivityProps) {
         </Group>
         {isAdmin && (
           <Group mt="md" mb="xs">
-            <Text size="sm">{new Date(activity.createdAt).toLocaleDateString("fr-FR")}</Text> 
+            <Text size="sm" data-testid="date">{new Date(activity.createdAt).toLocaleDateString("fr-FR")}</Text> 
             {/* TODO use i18n and use locale */}
           </Group>
         )}
